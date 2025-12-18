@@ -1,0 +1,15 @@
+{
+  "name": "siddhivinayak-realtors",
+  "version": "1.0.0",
+  "description": "Siddhivinayak Realtors - Premium Properties in Virar & Saphale",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["real-estate", "virar", "saphale", "properties"],
+  "author": "Siddhivinayak Realtors",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
