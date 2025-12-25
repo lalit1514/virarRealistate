@@ -578,8 +578,8 @@ button {
 
 .image-main {
     width: 100%;
-    aspect-ratio: 4/5;
-    background: url('images/about.png') center/cover;
+    aspect-ratio: 1/1;
+    background: var(--bg-dark) url('images/about.png') center center/contain no-repeat;
     border-radius: 20px;
     position: relative;
 }
