@@ -260,8 +260,11 @@ button {
 }
 
 .nav-logo img {
-    height: 50px;
+    height: 65px;
     border-radius: 50%;
+    border: 2px solid var(--primary);
+    padding: 2px;
+    background: var(--bg-dark);
 }
 
 .nav-menu {
