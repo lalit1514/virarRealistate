@@ -262,18 +262,17 @@ contactForm.addEventListener('submit', (e) => {
         return;
     }
 
-    // Simulate form submission
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    submitBtn.disabled = true;
+    // Create WhatsApp message
+    const whatsappNumber = '919325172453';
+    const message = `*New Property Inquiry*%0A%0A*Name:* ${data.name}%0A*Phone:* ${data.phone}%0A*Email:* ${data.email}%0A*Interested In:* ${data.interest}%0A*Message:* ${data.message}`;
 
-    setTimeout(() => {
-        showNotification('Thank you! We will contact you soon.', 'success');
-        contactForm.reset();
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-    }, 2000);
+    // Open WhatsApp with the message
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+
+    // Show success notification and reset form
+    showNotification('Redirecting to WhatsApp...', 'success');
+    contactForm.reset();
 });
 
 // Notification function
