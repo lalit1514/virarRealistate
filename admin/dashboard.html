@@ -121,19 +121,14 @@
                     <input type="hidden" id="propertyId">
 
                     <div class="form-row">
-                        <div class="form-group">
-                            <label for="title">Property Title *</label>
-                            <input type="text" id="title" name="title" required
-                                placeholder="e.g., 2BHK Apartment in Virar">
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Price (₹) *</label>
-                            <input type="text" id="price" name="price" required placeholder="e.g., 45,00,000">
+                        <div class="form-group full-width">
+                            <label for="title">Project Name *</label>
+                            <input type="text" id="title" name="title" required placeholder="e.g., Sunshine Residency">
                         </div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group full-width">
                             <label for="location">Location *</label>
                             <select id="location" name="location" required>
                                 <option value="">Select Location</option>
@@ -143,59 +138,47 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="propertyType">Property Type *</label>
-                            <select id="propertyType" name="propertyType" required>
-                                <option value="">Select Type</option>
-                                <option value="Flat">Flat</option>
-                                <option value="Plot">Plot</option>
-                                <option value="Villa">Villa</option>
-                                <option value="Shop">Shop</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Base Price (₹) *</label>
-                            <input type="text" id="price" name="price" required placeholder="e.g., 45,00,000">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="area">Carpet Area</label>
-                            <input type="text" id="area" name="area" placeholder="e.g., 850">
-                        </div>
-                    </div>
-
                     <div class="form-group full-width">
-                        <label>Available BHK Options (Select multiple & enter prices)</label>
+                        <label>Available BHK Options (Select & enter price and carpet area)</label>
                         <div class="bhk-options" id="bhkOptions">
-                            <div class="bhk-option">
+                            <div class="bhk-option-row">
                                 <label class="bhk-checkbox">
                                     <input type="checkbox" id="bhk1" name="bhk1" value="1 BHK">
                                     <span class="checkmark"></span>
                                     <span>1 BHK</span>
                                 </label>
-                                <input type="text" id="price1bhk" class="bhk-price" placeholder="Price for 1 BHK"
-                                    disabled>
+                                <div class="bhk-inputs">
+                                    <input type="text" id="price1bhk" class="bhk-price"
+                                        placeholder="Price (e.g., 35,00,000)" disabled>
+                                    <input type="text" id="area1bhk" class="bhk-area"
+                                        placeholder="Carpet Area (e.g., 450)" disabled>
+                                </div>
                             </div>
-                            <div class="bhk-option">
+                            <div class="bhk-option-row">
                                 <label class="bhk-checkbox">
                                     <input type="checkbox" id="bhk2" name="bhk2" value="2 BHK">
                                     <span class="checkmark"></span>
                                     <span>2 BHK</span>
                                 </label>
-                                <input type="text" id="price2bhk" class="bhk-price" placeholder="Price for 2 BHK"
-                                    disabled>
+                                <div class="bhk-inputs">
+                                    <input type="text" id="price2bhk" class="bhk-price"
+                                        placeholder="Price (e.g., 55,00,000)" disabled>
+                                    <input type="text" id="area2bhk" class="bhk-area"
+                                        placeholder="Carpet Area (e.g., 650)" disabled>
+                                </div>
                             </div>
-                            <div class="bhk-option">
+                            <div class="bhk-option-row">
                                 <label class="bhk-checkbox">
                                     <input type="checkbox" id="bhk3" name="bhk3" value="3 BHK">
                                     <span class="checkmark"></span>
                                     <span>3 BHK</span>
                                 </label>
-                                <input type="text" id="price3bhk" class="bhk-price" placeholder="Price for 3 BHK"
-                                    disabled>
+                                <div class="bhk-inputs">
+                                    <input type="text" id="price3bhk" class="bhk-price"
+                                        placeholder="Price (e.g., 75,00,000)" disabled>
+                                    <input type="text" id="area3bhk" class="bhk-area"
+                                        placeholder="Carpet Area (e.g., 850)" disabled>
+                                </div>
                             </div>
                         </div>
                     </div>

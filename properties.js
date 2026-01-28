@@ -90,8 +90,8 @@ function renderPropertyCards(properties) {
                      alt="${property.title}"
                      onerror="this.src='images/placeholder.jpg'">
                 <div class="property-badges">
-                    <span class="property-badge location">${property.location}</span>
-                    <span class="property-badge type">${property.propertyType}</span>
+                    <span class="property-badge location">${property.location || 'Location'}</span>
+                    ${property.bhk ? `<span class="property-badge type">${property.bhk}</span>` : ''}
                 </div>
                 ${property.images && property.images.length > 1 ? `
                     <div class="property-gallery-count">
@@ -102,21 +102,22 @@ function renderPropertyCards(properties) {
             </div>
             <div class="property-content">
                 <h3 class="property-title">${property.title}</h3>
-                <p class="property-price">₹${property.price}</p>
                 ${property.bhkOptions && property.bhkOptions.length > 0 ? `
                     <div class="bhk-price-list" style="margin-bottom: 12px;">
                         ${property.bhkOptions.map(opt => `
-                            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                                <span style="color: var(--primary-light);">${opt.type}</span>
-                                <span style="font-weight: 600;">₹${opt.price}</span>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <div>
+                                    <span style="color: var(--primary-light); font-weight: 600;">${opt.type}</span>
+                                    <span style="font-size: 0.85em; color: var(--text-secondary);"> • ${opt.area || 'N/A'} Carpet</span>
+                                </div>
+                                <span style="font-weight: 700; color: var(--primary);">₹${opt.price}</span>
                             </div>
                         `).join('')}
                     </div>
-                ` : ''}
+                ` : '<p style="color: var(--text-secondary);">Contact for pricing</p>'}
                 <div class="property-details">
                     ${property.bhk ? `<span><i class="fas fa-bed"></i> ${property.bhk}</span>` : ''}
-                    ${property.area ? `<span><i class="fas fa-ruler-combined"></i> ${property.area} Carpet</span>` : ''}
-                    <span><i class="fas fa-map-marker-alt"></i> ${property.location}</span>
+                    <span><i class="fas fa-map-marker-alt"></i> ${property.location || 'N/A'}</span>
                 </div>
                 <button class="btn-view-property" onclick="viewPropertyDetails('${property.id}')">
                     <span>View Details</span>
@@ -170,12 +171,11 @@ window.viewPropertyDetails = function (id) {
             
             <div class="property-detail-info">
                 <div class="property-detail-badges">
-                    <span class="property-badge location">${property.location}</span>
-                    <span class="property-badge type">${property.propertyType}</span>
+                    <span class="property-badge location">${property.location || 'Location'}</span>
+                    ${property.bhk ? `<span class="property-badge type">${property.bhk}</span>` : ''}
                 </div>
                 
                 <h2 class="property-detail-title">${property.title}</h2>
-                <p class="property-detail-price">₹${property.price}</p>
                 
                 <div class="property-detail-specs">
                     ${property.bhk ? `
@@ -184,15 +184,9 @@ window.viewPropertyDetails = function (id) {
                             <span>${property.bhk}</span>
                         </div>
                     ` : ''}
-                    ${property.area ? `
-                        <div class="spec-item">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>${property.area} Carpet</span>
-                        </div>
-                    ` : ''}
                     <div class="spec-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>${property.location}</span>
+                        <span>${property.location || 'N/A'}</span>
                     </div>
                 </div>
                 
@@ -201,9 +195,12 @@ window.viewPropertyDetails = function (id) {
                         <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #1e293b;">Available Options</h4>
                         <div style="display: grid; gap: 8px;">
                             ${property.bhkOptions.map(opt => `
-                                <div style="display: flex; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 8px;">
-                                    <span style="font-weight: 500; color: #64748b;">${opt.type}</span>
-                                    <span style="font-weight: 700; color: #f97316;">₹${opt.price}</span>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #f8fafc; border-radius: 8px;">
+                                    <div>
+                                        <span style="font-weight: 600; color: #1e293b;">${opt.type}</span>
+                                        <span style="font-size: 13px; color: #64748b; margin-left: 8px;">${opt.area || 'N/A'} Carpet</span>
+                                    </div>
+                                    <span style="font-weight: 700; color: #f97316; font-size: 18px;">₹${opt.price}</span>
                                 </div>
                             `).join('')}
                         </div>
