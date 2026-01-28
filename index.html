@@ -395,6 +395,33 @@
         </div>
     </section>
 
+    <!-- Dynamic Properties Section (Firebase) -->
+    <section class="dynamic-properties" id="firebase-properties">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Latest Listings</span>
+                <h2 class="section-title">New <span class="gradient-text">Properties</span></h2>
+                <p class="section-subtitle">Recently added properties by our team</p>
+            </div>
+
+            <div class="property-filters" data-aos="fade-up" data-aos-delay="200">
+                <button class="property-filter-btn active" data-filter="all">All</button>
+                <button class="property-filter-btn" data-filter="virar">Virar</button>
+                <button class="property-filter-btn" data-filter="saphale">Saphale</button>
+                <button class="property-filter-btn" data-filter="flat">Flat</button>
+                <button class="property-filter-btn" data-filter="villa">Villa</button>
+            </div>
+
+            <div class="property-grid" id="propertiesGrid" data-aos="fade-up" data-aos-delay="300">
+                <!-- Properties will be loaded dynamically from Firebase -->
+                <div class="loading-properties" style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 32px; color: #f97316; margin-bottom: 16px;"></i>
+                    <p style="color: #64748b;">Loading properties...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Services Section -->
     <section class="services" id="services">
         <div class="container">
@@ -1069,9 +1096,19 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
     <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
+
+    <!-- Properties Display -->
+    <script src="properties.js"></script>
 </body>
 
 </html>
