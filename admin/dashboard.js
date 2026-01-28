@@ -263,7 +263,13 @@ window.editProperty = async function (id) {
     // Load saved BHK options
     if (property.bhkOptions && Array.isArray(property.bhkOptions)) {
         property.bhkOptions.forEach(opt => {
-            if (opt.type === '1 BHK') {
+            if (opt.type === '1 RK') {
+                document.getElementById('bhkrk').checked = true;
+                document.getElementById('pricerk').value = opt.price || '';
+                document.getElementById('pricerk').disabled = false;
+                document.getElementById('areark').value = opt.area || '';
+                document.getElementById('areark').disabled = false;
+            } else if (opt.type === '1 BHK') {
                 document.getElementById('bhk1').checked = true;
                 document.getElementById('price1bhk').value = opt.price || '';
                 document.getElementById('price1bhk').disabled = false;
@@ -407,6 +413,13 @@ propertyForm.addEventListener('submit', async (e) => {
 
         // Collect BHK options
         const bhkOptions = [];
+        if (document.getElementById('bhkrk').checked) {
+            bhkOptions.push({
+                type: '1 RK',
+                price: document.getElementById('pricerk').value,
+                area: document.getElementById('areark').value
+            });
+        }
         if (document.getElementById('bhk1').checked) {
             bhkOptions.push({
                 type: '1 BHK',
