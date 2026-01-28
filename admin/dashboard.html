@@ -141,6 +141,9 @@
                                 <option value="Saphale">Saphale</option>
                             </select>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="propertyType">Property Type *</label>
                             <select id="propertyType" name="propertyType" required>
@@ -151,23 +154,49 @@
                                 <option value="Shop">Shop</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="price">Base Price (₹) *</label>
+                            <input type="text" id="price" name="price" required placeholder="e.g., 45,00,000">
+                        </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="bhk">BHK</label>
-                            <select id="bhk" name="bhk">
-                                <option value="">Select BHK</option>
-                                <option value="1 BHK">1 BHK</option>
-                                <option value="2 BHK">2 BHK</option>
-                                <option value="3 BHK">3 BHK</option>
-                                <option value="4+ BHK">4+ BHK</option>
-                                <option value="N/A">N/A</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="area">Area (sq.ft)</label>
+                            <label for="area">Carpet Area</label>
                             <input type="text" id="area" name="area" placeholder="e.g., 850">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Available BHK Options (Select multiple & enter prices)</label>
+                        <div class="bhk-options" id="bhkOptions">
+                            <div class="bhk-option">
+                                <label class="bhk-checkbox">
+                                    <input type="checkbox" id="bhk1" name="bhk1" value="1 BHK">
+                                    <span class="checkmark"></span>
+                                    <span>1 BHK</span>
+                                </label>
+                                <input type="text" id="price1bhk" class="bhk-price" placeholder="Price for 1 BHK"
+                                    disabled>
+                            </div>
+                            <div class="bhk-option">
+                                <label class="bhk-checkbox">
+                                    <input type="checkbox" id="bhk2" name="bhk2" value="2 BHK">
+                                    <span class="checkmark"></span>
+                                    <span>2 BHK</span>
+                                </label>
+                                <input type="text" id="price2bhk" class="bhk-price" placeholder="Price for 2 BHK"
+                                    disabled>
+                            </div>
+                            <div class="bhk-option">
+                                <label class="bhk-checkbox">
+                                    <input type="checkbox" id="bhk3" name="bhk3" value="3 BHK">
+                                    <span class="checkmark"></span>
+                                    <span>3 BHK</span>
+                                </label>
+                                <input type="text" id="price3bhk" class="bhk-price" placeholder="Price for 3 BHK"
+                                    disabled>
+                            </div>
                         </div>
                     </div>
 

@@ -103,9 +103,19 @@ function renderPropertyCards(properties) {
             <div class="property-content">
                 <h3 class="property-title">${property.title}</h3>
                 <p class="property-price">₹${property.price}</p>
+                ${property.bhkOptions && property.bhkOptions.length > 0 ? `
+                    <div class="bhk-price-list" style="margin-bottom: 12px;">
+                        ${property.bhkOptions.map(opt => `
+                            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <span style="color: var(--primary-light);">${opt.type}</span>
+                                <span style="font-weight: 600;">₹${opt.price}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
                 <div class="property-details">
                     ${property.bhk ? `<span><i class="fas fa-bed"></i> ${property.bhk}</span>` : ''}
-                    ${property.area ? `<span><i class="fas fa-ruler-combined"></i> ${property.area} sq.ft</span>` : ''}
+                    ${property.area ? `<span><i class="fas fa-ruler-combined"></i> ${property.area} Carpet</span>` : ''}
                     <span><i class="fas fa-map-marker-alt"></i> ${property.location}</span>
                 </div>
                 <button class="btn-view-property" onclick="viewPropertyDetails('${property.id}')">
@@ -177,7 +187,7 @@ window.viewPropertyDetails = function (id) {
                     ${property.area ? `
                         <div class="spec-item">
                             <i class="fas fa-ruler-combined"></i>
-                            <span>${property.area} sq.ft</span>
+                            <span>${property.area} Carpet</span>
                         </div>
                     ` : ''}
                     <div class="spec-item">
@@ -185,6 +195,20 @@ window.viewPropertyDetails = function (id) {
                         <span>${property.location}</span>
                     </div>
                 </div>
+                
+                ${property.bhkOptions && property.bhkOptions.length > 0 ? `
+                    <div class="property-bhk-prices" style="margin-bottom: 20px;">
+                        <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #1e293b;">Available Options</h4>
+                        <div style="display: grid; gap: 8px;">
+                            ${property.bhkOptions.map(opt => `
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: #f8fafc; border-radius: 8px;">
+                                    <span style="font-weight: 500; color: #64748b;">${opt.type}</span>
+                                    <span style="font-weight: 700; color: #f97316;">₹${opt.price}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
                 
                 ${property.description ? `
                     <div class="property-detail-description">

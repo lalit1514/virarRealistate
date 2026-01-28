@@ -158,7 +158,8 @@ function renderProperties(filteredProperties = properties) {
                                      onerror="this.src='../images/placeholder.jpg'">
                                 <div>
                                     <div class="property-title">${property.title}</div>
-                                    <div class="property-location">${property.bhk || ''} ${property.area ? `• ${property.area} sq.ft` : ''}</div>
+                                    <div class="property-location">${property.bhk || ''} ${property.area ? `• ${property.area} Carpet` : ''}</div>
+                                    ${property.bhkOptions && property.bhkOptions.length > 0 ? `<div class="property-location" style="font-size: 11px; color: #f97316;">${property.bhkOptions.map(o => `${o.type}: ₹${o.price}`).join(' | ')}</div>` : ''}
                                 </div>
                             </div>
                         </td>
@@ -193,6 +194,17 @@ searchInput.addEventListener('input', (e) => {
     renderProperties(filtered);
 });
 
+// BHK Checkbox Toggle - Enable/Disable price fields
+document.querySelectorAll('.bhk-checkbox input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+        const priceInput = this.closest('.bhk-option').querySelector('.bhk-price');
+        priceInput.disabled = !this.checked;
+        if (!this.checked) {
+            priceInput.value = '';
+        }
+    });
+});
+
 // Open Add Modal
 function openAddModal() {
     isEditing = false;
@@ -203,6 +215,16 @@ function openAddModal() {
     selectedImages = [];
     existingImageUrls = [];
     imagePreviews.innerHTML = '';
+
+    // Reset BHK checkboxes and price fields
+    document.querySelectorAll('.bhk-checkbox input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+    });
+    document.querySelectorAll('.bhk-price').forEach(input => {
+        input.value = '';
+        input.disabled = true;
+    });
+
     propertyModal.classList.add('active');
 }
 
@@ -225,16 +247,43 @@ window.editProperty = async function (id) {
     document.getElementById('price').value = property.price || '';
     document.getElementById('location').value = property.location || '';
     document.getElementById('propertyType').value = property.propertyType || '';
-    document.getElementById('bhk').value = property.bhk || '';
     document.getElementById('area').value = property.area || '';
     document.getElementById('description').value = property.description || '';
+
+    // Handle BHK options
+    document.querySelectorAll('.bhk-checkbox input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+    });
+    document.querySelectorAll('.bhk-price').forEach(input => {
+        input.value = '';
+        input.disabled = true;
+    });
+
+    // Load saved BHK options
+    if (property.bhkOptions && Array.isArray(property.bhkOptions)) {
+        property.bhkOptions.forEach(opt => {
+            if (opt.type === '1 BHK') {
+                document.getElementById('bhk1').checked = true;
+                document.getElementById('price1bhk').value = opt.price || '';
+                document.getElementById('price1bhk').disabled = false;
+            } else if (opt.type === '2 BHK') {
+                document.getElementById('bhk2').checked = true;
+                document.getElementById('price2bhk').value = opt.price || '';
+                document.getElementById('price2bhk').disabled = false;
+            } else if (opt.type === '3 BHK') {
+                document.getElementById('bhk3').checked = true;
+                document.getElementById('price3bhk').value = opt.price || '';
+                document.getElementById('price3bhk').disabled = false;
+            }
+        });
+    }
 
     // Handle existing images
     selectedImages = [];
     existingImageUrls = property.images || [];
     renderImagePreviews();
 
-    propertyModal.classList.add('active');
+    propertyModal.classList.add('active')
 };
 
 // Render Image Previews
@@ -349,12 +398,28 @@ propertyForm.addEventListener('submit', async (e) => {
         // Combine existing and new images
         const allImages = [...existingImageUrls, ...newImageUrls];
 
+        // Collect BHK options
+        const bhkOptions = [];
+        if (document.getElementById('bhk1').checked) {
+            bhkOptions.push({ type: '1 BHK', price: document.getElementById('price1bhk').value });
+        }
+        if (document.getElementById('bhk2').checked) {
+            bhkOptions.push({ type: '2 BHK', price: document.getElementById('price2bhk').value });
+        }
+        if (document.getElementById('bhk3').checked) {
+            bhkOptions.push({ type: '3 BHK', price: document.getElementById('price3bhk').value });
+        }
+
+        // Create display string for BHK
+        const bhkDisplay = bhkOptions.map(o => o.type).join(', ');
+
         const propertyData = {
             title: document.getElementById('title').value,
             price: document.getElementById('price').value,
             location: document.getElementById('location').value,
             propertyType: document.getElementById('propertyType').value,
-            bhk: document.getElementById('bhk').value,
+            bhk: bhkDisplay,
+            bhkOptions: bhkOptions,
             area: document.getElementById('area').value,
             description: document.getElementById('description').value,
             images: allImages,
