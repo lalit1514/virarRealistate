@@ -229,6 +229,7 @@ function updateStats() {
     document.getElementById('totalProperties').textContent = properties.length;
     document.getElementById('virarCount').textContent = properties.filter(p => p.location === 'Virar').length;
     document.getElementById('saphaleCount').textContent = properties.filter(p => p.location === 'Saphale').length;
+    document.getElementById('palgharCount').textContent = properties.filter(p => p.location === 'Palghar').length;
 }
 
 // Render Properties Table
