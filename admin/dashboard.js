@@ -27,12 +27,126 @@ let existingImageUrls = [];
 let isEditing = false;
 let currentPropertyId = null;
 
+// ===== AUTO-SAVE FORM DATA TO LOCALSTORAGE =====
+const FORM_STORAGE_KEY = 'admin_property_form_data';
+
+// Save form data to localStorage
+function saveFormToStorage() {
+    const formData = {
+        title: document.getElementById('title')?.value || '',
+        location: document.getElementById('location')?.value || '',
+        description: document.getElementById('description')?.value || '',
+        bhkrk: document.getElementById('bhkrk')?.checked || false,
+        pricerk: document.getElementById('pricerk')?.value || '',
+        areark: document.getElementById('areark')?.value || '',
+        bhk1: document.getElementById('bhk1')?.checked || false,
+        price1bhk: document.getElementById('price1bhk')?.value || '',
+        area1bhk: document.getElementById('area1bhk')?.value || '',
+        bhk2: document.getElementById('bhk2')?.checked || false,
+        price2bhk: document.getElementById('price2bhk')?.value || '',
+        area2bhk: document.getElementById('area2bhk')?.value || '',
+        bhk3: document.getElementById('bhk3')?.checked || false,
+        price3bhk: document.getElementById('price3bhk')?.value || '',
+        area3bhk: document.getElementById('area3bhk')?.value || '',
+        isEditing: isEditing,
+        currentPropertyId: currentPropertyId,
+        timestamp: Date.now()
+    };
+    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(formData));
+}
+
+// Restore form data from localStorage
+function restoreFormFromStorage() {
+    const saved = localStorage.getItem(FORM_STORAGE_KEY);
+    if (!saved) return false;
+
+    try {
+        const formData = JSON.parse(saved);
+        // Only restore if saved within last 30 minutes
+        if (Date.now() - formData.timestamp > 30 * 60 * 1000) {
+            localStorage.removeItem(FORM_STORAGE_KEY);
+            return false;
+        }
+
+        // Restore values
+        if (document.getElementById('title')) document.getElementById('title').value = formData.title || '';
+        if (document.getElementById('location')) document.getElementById('location').value = formData.location || '';
+        if (document.getElementById('description')) document.getElementById('description').value = formData.description || '';
+
+        // Restore BHK checkboxes and inputs
+        if (formData.bhkrk) {
+            document.getElementById('bhkrk').checked = true;
+            document.getElementById('pricerk').disabled = false;
+            document.getElementById('pricerk').value = formData.pricerk || '';
+            document.getElementById('areark').disabled = false;
+            document.getElementById('areark').value = formData.areark || '';
+        }
+        if (formData.bhk1) {
+            document.getElementById('bhk1').checked = true;
+            document.getElementById('price1bhk').disabled = false;
+            document.getElementById('price1bhk').value = formData.price1bhk || '';
+            document.getElementById('area1bhk').disabled = false;
+            document.getElementById('area1bhk').value = formData.area1bhk || '';
+        }
+        if (formData.bhk2) {
+            document.getElementById('bhk2').checked = true;
+            document.getElementById('price2bhk').disabled = false;
+            document.getElementById('price2bhk').value = formData.price2bhk || '';
+            document.getElementById('area2bhk').disabled = false;
+            document.getElementById('area2bhk').value = formData.area2bhk || '';
+        }
+        if (formData.bhk3) {
+            document.getElementById('bhk3').checked = true;
+            document.getElementById('price3bhk').disabled = false;
+            document.getElementById('price3bhk').value = formData.price3bhk || '';
+            document.getElementById('area3bhk').disabled = false;
+            document.getElementById('area3bhk').value = formData.area3bhk || '';
+        }
+
+        isEditing = formData.isEditing || false;
+        currentPropertyId = formData.currentPropertyId || null;
+
+        return true;
+    } catch (e) {
+        console.error('Error restoring form:', e);
+        return false;
+    }
+}
+
+// Clear saved form data
+function clearFormStorage() {
+    localStorage.removeItem(FORM_STORAGE_KEY);
+}
+
+// Add input listeners to auto-save
+function setupAutoSave() {
+    const formElements = document.querySelectorAll('#propertyForm input, #propertyForm select, #propertyForm textarea');
+    formElements.forEach(el => {
+        el.addEventListener('input', saveFormToStorage);
+        el.addEventListener('change', saveFormToStorage);
+    });
+}
+
 // Check authentication
 auth.onAuthStateChanged((user) => {
     if (!user) {
         window.location.href = 'login.html';
     } else {
         loadProperties();
+        // Setup auto-save after page loads
+        setTimeout(() => {
+            setupAutoSave();
+            // Check if there's saved form data and show modal if exists
+            if (localStorage.getItem(FORM_STORAGE_KEY)) {
+                const saved = JSON.parse(localStorage.getItem(FORM_STORAGE_KEY));
+                if (Date.now() - saved.timestamp < 30 * 60 * 1000) {
+                    // Show modal and restore data
+                    propertyModal.classList.add('active');
+                    restoreFormFromStorage();
+                    showToast('Form data restored!', 'success');
+                }
+            }
+        }, 500);
     }
 });
 
@@ -482,6 +596,7 @@ function closeModalHandler() {
     selectedImages = [];
     existingImageUrls = [];
     imagePreviews.innerHTML = '';
+    clearFormStorage(); // Clear saved form data
 }
 
 closeModal.addEventListener('click', closeModalHandler);
