@@ -19,6 +19,9 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
+// Set auth persistence to LOCAL - keeps user logged in even after browser close
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
 // Auth state observer
 function onAuthStateChanged(callback) {
     return auth.onAuthStateChanged(callback);
